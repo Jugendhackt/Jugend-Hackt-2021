@@ -28,7 +28,6 @@
                 &nbsp;<b>Max</b> Dies ist eine Nachricht von jemandem aus der Gruppe
             </span><br>
         </div>
-        <ul id="messages"></ul>
         <div class="input-group mb-3">
           <form id="form" action="">
             <span style="margin-top: 40px;" class="input-group-text" id="basic-addon1"> <i class="large material-icons">message</i></span>
@@ -42,7 +41,7 @@
     <script>
       var socket = new io("ws://localhost:8080");
 
-      var messages = document.getElementById('messages');
+      var messages = document.getElementById('chat');
       var form = document.getElementById('form');
       var input = document.getElementById('input');
 
@@ -55,8 +54,26 @@
       });
 
       socket.on('chat message', function(msg) {
-        var item = document.createElement('li');
-        item.textContent = msg;
+        var item = document.createElement('span');
+        var name = msg.split(":")[0]
+        var nachricht = msg.split(" ")
+        let ende = ""
+        for(let i in nachricht){
+          ende += nachricht[i] + " "
+        };
+        nachricht = ende + "   "
+        console.log(nachricht);
+        if(name == localStorage.getItem("username")){
+          item.className = "border-end border-info border-5";
+          item.style.float = "right"
+          item.innerHTML = nachricht;
+          messages.appendChild(item);
+        }else{
+          item.className = "border-start border-info border-5";
+          item.style.float = "left"
+          item.innerHTML = msg
+          messages.appendChild(item);
+        }
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });
