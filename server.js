@@ -15,6 +15,13 @@ app.get('/chat', (req, res) => {
     res.sendFile(`${__dirname}` + '\\views\\chat.html');
 });
 
+app.get('/bot', (req, res) => {
+    var exec = require('child_process').execSync;
+    var process = exec('python ./Python_AI_ChatBot/chatbot.py Hi');
+
+    res.send(process.stdout);
+});
+
 io.on('connection', (socket) => {
     console.log('Ein Nutzer ist Connected');
     socket.on('chat message', (msg) => {
