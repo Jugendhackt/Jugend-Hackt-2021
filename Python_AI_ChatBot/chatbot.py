@@ -3,22 +3,25 @@ import json
 import pickle
 import numpy as np
 import sys
+import os
 
 import nltk
 from nltk.stem import WordNetLemmatizer
 
-from tensorflow.keras.models import load_model
+from tensorflow.python.keras.models import load_model
+
+path = os.path.dirname(os.path.abspath(__file__))
 
 text_from_node_server = str(sys.argv[1])
 
 
 lemmatizer = WordNetLemmatizer()
 
-intents = json.loads(open("C:\\Users\\MatteoMF\\Desktop\\Jugend-Hackt-2021-main\\views\\Python AI ChatBot\\intents.json").read())
+intents = json.loads(open(path + "\\intents.json").read())
 
-words = pickle.load(open("C:\\Users\\MatteoMF\Desktop\\Jugend-Hackt-2021-main\\views\\Python AI ChatBot\\words.pkl", 'rb'))
-classes = pickle.load(open("C:\\Users\\MatteoMF\Desktop\\Jugend-Hackt-2021-main\\views\\Python AI ChatBot\\classes.pkl", 'rb'))
-model = load_model("C:\\Users\MatteoMF\\Desktop\\Jugend-Hackt-2021-main\\views\\Python AI ChatBot\\chatbot_model.model")
+words = pickle.load(open(path + "\\words.pkl", 'rb'))
+classes = pickle.load(open(path + "\\classes.pkl", 'rb'))
+model = load_model(path + "\\chatbot_model.model")
 
 def clean_up_sentence(sentence):
     sentence_words = nltk.word_tokenize(sentence)
@@ -55,7 +58,7 @@ def get_response(intents_list, intents_json):
             break
     return result
 
-print("Der Bot hört dir zu!")
+#print("Der Bot hört dir zu!")
 
 
 message = text_from_node_server

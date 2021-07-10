@@ -20,7 +20,7 @@ app.get('/bot', (req, res) => {
     var exec = require('child_process').execSync;
     var process = exec('python ./Python_AI_ChatBot/chatbot.py Hi');
 
-    res.send(process.stdout);
+    res.send(process.toString());
 });
 
 io.on('connection', (socket) => {
