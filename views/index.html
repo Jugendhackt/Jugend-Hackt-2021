@@ -19,10 +19,16 @@
       <h1>Wilkommen</h1>
       <div class="input-group mb-3 container" style="margin-top: 100px;">
         <span class="input-group-text" id="basic-addon1">@</span>
-        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-        <button type="button" class="btn btn-primary">Start!</button>
+        <input id="username" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        <button id="finish" type="button" class="btn btn-primary">Start!</button>
       </div>
     </div>
     <script src="views/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      document.getElementById("finish").addEventListener("click", () => {
+        localStorage.setItem("username", document.getElementById("username").value)
+        window.location = "http://localhost:8080/chat"
+      })
+    </script>
   </body>
 </html>
