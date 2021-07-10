@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="views/fonts/icons.font.css" rel="stylesheet">
+    <link href="views/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="views/chat.css" type="text/css" rel="stylesheet">
+    <title>AlphaChat</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          AlphaChat
+        </a>
+      </div>
+    </nav>
+    <div class="container">
+        <h1 style="margin-top: 20px;">Tom <i class="large material-icons">android</i></h1>
+        <div id="chat">
+            <span class="border-start border-info border-5" >
+                &nbsp;Dies ist eine Nachricht von 'Tom'
+            </span><br>
+            <span class="border-end border-info border-5" style="float: right;">
+                Dies ist deine Nachricht&nbsp;
+            </span><br>
+            <span class="border-start border-info border-5" >
+                &nbsp;<b>Max</b> Dies ist eine Nachricht von jemandem aus der Gruppe
+            </span><br>
+        </div>
+        <ul id="messages"></ul>
+        <div class="input-group mb-3">
+          <form id="form" action="">
+            <span style="margin-top: 40px;" class="input-group-text" id="basic-addon1"> <i class="large material-icons">message</i></span>
+            <input id="input" autocomplete="off" /><button>Send</button>
+          </form>
+        </div>          
+    </div>
+    <!-- Hier beginnt das, das auf der Seite spiziell angezeigt werden soll (Body ohne Nav & co.)-->
+    <script src="views/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = new io("ws://localhost:8080");
+
+      var messages = document.getElementById('messages');
+      var form = document.getElementById('form');
+      var input = document.getElementById('input');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value) {
+          socket.emit('chat message', input.value);
+          input.value = '';
+          }
+      });
+
+      socket.on('chat message', function(msg) {
+        var item = document.createElement('li');
+        item.textContent = msg;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+    </script>
+  </body>
+</html>
