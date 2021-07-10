@@ -1,0 +1,28 @@
+{"intents": [
+    {"tag": "Erdkunde",
+    "patterns": ["Was ist die Hauptstadt von Deutschland?", "Hauptstadt von Deutschland", "Unsere Haupstadt"],
+    "responses": ["Berlin", "Unsere Haupstadt ist Berlin", "Die Haupstadt von Deutschland ist Berlin"]
+    },
+    {"tag": "Begrüßung",
+        "patterns": ["Wie geht's", "Hallo","Hi", "Was geht?", "Moin", "Moinsen"],
+        "responses": ["Hi!", "Hallo", "Moin", "Moinsen"]
+    },
+    {"tag": "Information1",
+        "patterns": ["Wer bist du?", "Was bist du?", "Was machst du?", "Bist du ein Roboter?", "Bist du ein Chatbot?"],
+        "responses": ["Ich bin ein Chatbot, der durch künstliche Intelligenz gesteuert wird"]
+    },
+    {"tag": "Information2",
+        "patterns": ["Wer bist du?", "Wie ist dein Name?", "Wie heißt du?"],
+        "responses": ["Eigentlich habe ich keinen Namen", "Ich habe keinen Namen"]
+    },
+    {"tag": "InfoAlpacka",
+        "patterns": ["Was ist Jugend Hackt?", "Weißt du was Jugend Hackt ist?", "Kennst du Jugend Hackt?"],
+        "responses": ["Jugend Hackt findet gerade statt du Dödel!", "Ernsthaft?"]
+    },
+    {"tag": "Command",
+        "patterns": ["Unicode Test"],
+        "responses": ["Ää Öö Üü"]
+    }
+
+
+]}
