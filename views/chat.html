@@ -5,28 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="views/fonts/icons.font.css" rel="stylesheet">
     <link href="views/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <title>AlphaChat</title>
+    <title>AlpakaChat</title>
   </head>
   <body>
     <nav class="navbar navbar-dark bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          AlphaChat
+          AlpakaChat
         </a>
       </div>
     </nav>
     <div class="container">
-        <h1 style="margin-top: 20px;">Tom <i class="large material-icons">android</i></h1>
+        <h1 style="margin-top: 20px;">Chat <!-- <i class="large material-icons">android</i> --> </h1>
         <div id="chat">
-            <span class="border-start border-info border-5" >
-                &nbsp;Dies ist eine Nachricht von 'Tom'
-            </span><br>
-            <span class="border-end border-info border-5" style="float: right;">
-                Dies ist deine Nachricht&nbsp;
-            </span><br>
-            <span class="border-start border-info border-5" >
-                &nbsp;<b>Max</b> Dies ist eine Nachricht von jemandem aus der Gruppe
-            </span><br>
         </div>
         <div class="input-group mb-3">
           <form id="form" action="">
@@ -40,7 +31,31 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = new io("ws://localhost:8080");
-
+socket.emit("getchats")
+socket.on("getchats", (chats) => {
+  for(let chati in chats.chats){
+    if(chats.chats[chati].id == localStorage.getItem("currentChat")){
+      for(let messagei in chats.chats[chati].messages){
+        var item = document.createElement('span');
+        let nachricht = chats.chats[chati].messages[messagei].content;
+        var name =  nachricht.split(":")[0]
+        if(name == localStorage.getItem("username")){
+          item.className = "border-end border-info border-5";
+          item.style.float = "right"
+          item.innerHTML = nachricht;
+          messages.appendChild(item);
+          messages.appendChild(document.createElement('br'))
+        }else{
+          item.className = "border-start border-info border-5";
+          item.style.float = "left"
+          item.innerHTML = nachricht
+          messages.appendChild(item);
+          messages.appendChild(document.createElement('br'))
+        }
+      }
+    }
+  }
+})
       var messages = document.getElementById('chat');
       var form = document.getElementById('form');
       var input = document.getElementById('input');
@@ -48,34 +63,31 @@
       form.addEventListener('submit', function(e) {
         e.preventDefault();
         if (input.value) {
-          socket.emit('chat message', localStorage.getItem('username') + ": " + input.value);
-          input.value = '';
+            socket.emit('chat message', localStorage.getItem('username') + ": " + input.value, localStorage.getItem("currentChat"));
+            input.value = '';
           }
       });
 
-      socket.on('chat message', function(msg) {
-        var item = document.createElement('span');
-        var name = msg.split(":")[0]
-        var nachricht = msg.split(" ")
-        let ende = ""
-        for(let i in nachricht){
-          ende += nachricht[i] + " "
-        };
-        nachricht = ende + "   "
-        console.log(nachricht);
-        if(name == localStorage.getItem("username")){
-          item.className = "border-end border-info border-5";
-          item.style.float = "right"
-          item.innerHTML = nachricht;
-          messages.appendChild(item);
-        }else{
-          item.className = "border-start border-info border-5";
-          item.style.float = "left"
-          item.innerHTML = msg
-          messages.appendChild(item);
+      socket.on('chat message', function(msg, chatid) {
+        if(chatid == localStorage.getItem("currentChat")){
+          var item = document.createElement('span');
+          var name = msg.split(":")[0]
+          let nachricht = msg;
+          if(name == localStorage.getItem("username")){
+            item.className = "border-end border-info border-5";
+            item.style.float = "right"
+            item.innerHTML = nachricht;
+            messages.appendChild(item);
+            messages.appendChild(document.createElement('br'))
+          }else{
+            item.className = "border-start border-info border-5";
+            item.style.float = "left"
+            item.innerHTML = msg
+            messages.appendChild(item);
+            messages.appendChild(document.createElement('br'))
+          }
+          window.scrollTo(0, document.body.scrollHeight);
         }
-        messages.appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
       });
     </script>
   </body>

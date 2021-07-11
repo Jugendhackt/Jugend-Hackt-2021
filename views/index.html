@@ -4,31 +4,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="views/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
-    <title>AlphaChat</title>
+    <title>AlpakaChat</title>
   </head>
   <body>
     <nav class="navbar navbar-dark bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          AlphaChat
+          AlpakaChat
         </a>
       </div>
     </nav>
     <!-- Hier beginnt das, das auf der Seite spiziell angezeigt werden soll (Body ohne Nav & co.)-->
     <div align="center" style="margin-top: 200px;">
       <h1>Wilkommen</h1>
-      <div class="input-group mb-3 container" style="margin-top: 100px;">
-        <span class="input-group-text" id="basic-addon1">@</span>
-        <input id="username" type="text" class="form-control" placeholder="Nutzername" aria-label="Username" aria-describedby="basic-addon1">
-        <button id="finish" type="button" class="btn btn-primary">Start!</button>
-      </div>
+      <button onclick="window.location = 'http://localhost:8080/login'" type="button" class="btn btn-primary">Einloggen</button>
+      <button onclick="window.location = 'http://localhost:8080/register'" type="button" class="btn btn-secondary">Registrieren</button>
     </div>
     <script src="views/bootstrap/js/bootstrap.min.js"></script>
     <script>
-      document.getElementById("finish").addEventListener("click", () => {
-        localStorage.setItem("username", document.getElementById("username").value)
-        window.location = "http://localhost:8080/chat"
-      })
     </script>
   </body>
 </html>

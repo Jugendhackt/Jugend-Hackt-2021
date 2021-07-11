@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="fonts/icons.font.css" rel="stylesheet">
-    <title>AlphaChat</title>
+    <link href="views/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="views/fonts/icons.font.css" rel="stylesheet">
+    <title>AlpakaChat</title>
   </head>
   <body>
     <nav class="navbar navbar-dark bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          AlphaChat
+          AlpakaChat
         </a>
       </div>
     </nav>
@@ -20,16 +20,38 @@
         <h1>Direktnachricht erstellen</h1>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">@</span>
-            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-            <button type="button" class="btn btn-primary"><i class="large material-icons">add</i></button>
+            <input id="name" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+            <button id="add" type="button" class="btn btn-primary"><i class="large material-icons">add</i></button>
         </div>
         <h3>Bereits hinzugefügt</h3>
-        <ul class="list-group">
-            <li class="list-group-item">Tom</li>
-            <li class="list-group-item">Max</li>
-            <li class="list-group-item">Lara</li>
+        <ul id="liste" class="list-group">
         </ul>
+        <button id="start" type="button" class="btn btn-primary">Gruppe erstellen</button>
     </div>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="views/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+var socket = new io("ws://localhost:8080");
+document.getElementById("start").addEventListener("click", () => {
+  let liste = document.getElementById("liste");
+  template = {members: []}
+  for(let i in liste.childNodes){
+    if(!(liste.childNodes[i].innerHTML == null)){
+      template.members.push(liste.childNodes[i].innerHTML)
+    }
+  }
+  template.members.push(localStorage.getItem("username"))
+  socket.emit("creategroup", template)
+  window.location = "http://localhost:8080/dashboard"
+})
+
+document.getElementById("add").addEventListener("click", () => {
+  let liste = document.getElementById("liste");
+  let item = document.createElement("li")
+  item.className = "list-group-item"
+  item.innerHTML = document.getElementById("name").value
+  liste.appendChild(item);
+})
+    </script>
   </body>
 </html>

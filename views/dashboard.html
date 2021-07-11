@@ -5,25 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="views/fonts/icons.font.css" rel="stylesheet">
     <link href="views/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <title>AlphaChat</title>
+    <title>AlpakaChat</title>
   </head>
   <body>
     <nav class="navbar navbar-dark bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          AlphaChat
+          AlpakaChat
         </a>
       </div>
     </nav>
     <div class="container">
         <h1 style="margin-top: 20px;">Deine Chats</h1>
-        <ul class="list-group">
-          <li class="list-group-item">Lara <br> <p style="color: grey;">Du: Wie geht es dir?</p></li>
-          <li class="list-group-item">Tom <br> <p style="color: grey;">Du: Wie geht es dir?</p></li>
-          <li class="list-group-item">Hans <br> <p style="color: grey;">Du: Wie geht es dir?</p></li>
+        <button onclick="window.location = 'http://localhost:8080/create'" type="button" class="btn btn-primary">Neuer Chat</button>
+        <ul id="chats" class="list-group" style="margin-top: 20px;">
         </ul>
     </div>
     <!-- Hier beginnt das, das auf der Seite spiziell angezeigt werden soll (Body ohne Nav & co.)-->
     <script src="views/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+var socket = new io("ws://localhost:8080");
+socket.emit("getchats")
+socket.on("getchats", (chats) => {
+  for(let i in chats.chats){
+    let chat = chats.chats[i]
+    for(let memberi in chat.members){
+      if(chat.members[memberi] == localStorage.getItem("username")){
+        let chatdiv = document.getElementById("chats");
+        let item = document.createElement('li')
+        item.className = "list-group-item"
+        let biggest = 0
+        for(let messagei in chat.messages){
+          if(chat.messages[messagei].id > biggest){
+            let biggest = messagei
+          }
+        }
+        if(chat.messages[biggest] == undefined){
+          item.innerHTML = "<a onclick='startchat(" + chat.id + ");'>" + chat.members.toString() + "</a>"
+        }else{
+          let letztenachricht = chat.messages[biggest].content
+          item.innerHTML = "<a onclick='startchat(" + chat.id + ");'>" + chat.members.toString() + " <br> <p style='color: grey;'>" + letztenachricht + "</p></a>"
+        }
+        chatdiv.appendChild(item)
+      }
+    }
+  }
+})
+
+function startchat(chatid){
+  localStorage.setItem("currentChat", chatid)
+  window.location = "http://localhost:8080/chat"
+}
+    </script>
   </body>
 </html>
