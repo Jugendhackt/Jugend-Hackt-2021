@@ -26,7 +26,21 @@ app.get('/bot', (req, res) => {
 io.on('connection', (socket) => {
     console.log('Ein Nutzer ist Connected');
     socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
+        if (!(msg.indexOf("/") == -1)){
+            var exec = require('child_process').execSync;
+            var process = exec('python ./Python_AI_ChatBot/chatbot.py ' + msg);
+            res = process;
+            console.log(res);
+            res.toString();
+            var len = 'python ./Python_AI_ChatBot/chatbot.py '.length + msg.toString().length;
+            res = res.toString().substring(len-4);
+            console.log(len + "  " + res);
+            io.emit('chat message', "Tom: " + res);
+            console.log('Ein Nutzer hat die Nachricht: ' + res + " geschrieben");
+        }else {
+            io.emit('chat message', res);
+            console.log('Ein Nutzer hat die Nachricht: ' + res + " geschrieben");
+        };
     });
 });
 

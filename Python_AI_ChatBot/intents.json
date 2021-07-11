@@ -12,8 +12,8 @@
         "responses": ["Ich bin ein Chatbot, der durch künstliche Intelligenz gesteuert wird"]
     },
     {"tag": "Information2",
-        "patterns": ["Wer bist du?", "Wie ist dein Name?", "Wie heißt du?"],
-        "responses": ["Eigentlich habe ich keinen Namen", "Ich habe keinen Namen"]
+        "patterns": ["Wie ist dein Name?", "Wie heißt du?"],
+        "responses": ["Mein Name ist Tom.", "Ich heiße Tom."]
     },
     {"tag": "InfoAlpacka",
         "patterns": ["Was ist Jugend Hackt?", "Weißt du was Jugend Hackt ist?", "Kennst du Jugend Hackt?"],

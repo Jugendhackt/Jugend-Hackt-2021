@@ -12,8 +12,11 @@ from tensorflow.python.keras.models import load_model
 
 path = os.path.dirname(os.path.abspath(__file__))
 
-text_from_node_server = str(sys.argv[1])
+text_from_node_server = ''
+for i in sys.argv:
+    text_from_node_server += i + " "
 
+print(text_from_node_server)
 
 lemmatizer = WordNetLemmatizer()
 
@@ -41,13 +44,13 @@ def predict_class(sentence):
     bow = bag_of_words(sentence)
     res = model.predict(np.array([bow]))[0]
     ERROR_THRESHOLD = 0.25
-    results = [[i,r] for i, r in enumerate(res) if r > ERROR_THRESHOLD] 
+    results = [[i,r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
 
     results.sort(key=lambda x: x[1], reverse=True)
     return_list = []
     for r in results:
         return_list.append({'intent': classes[r[0]], 'probability': str(r[1])})
-    return return_list 
+    return return_list
 
 def get_response(intents_list, intents_json):
     tag = intents_list[0]['intent']
@@ -64,7 +67,7 @@ def get_response(intents_list, intents_json):
 message = text_from_node_server
 ints = predict_class(message)
 res = get_response(ints, intents)
-print(res)
+print(res.encode('iso8859-1').decode('utf-8-sig'))
 sys.stdout.flush()
 
 
