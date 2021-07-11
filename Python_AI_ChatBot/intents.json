@@ -19,6 +19,10 @@
         "patterns": ["Was ist Jugend Hackt?", "Weißt du was Jugend Hackt ist?", "Kennst du Jugend Hackt?"],
         "responses": ["Jugend Hackt findet gerade statt du Dödel!", "Ernsthaft?"]
     },
+    {"tag": "Information3",
+        "patterns": ["Wer ist dein erschaffer?", "Wer hat dich geschrieben?", "Wer hat dich gebaut?"],
+        "responses": ["Ich wurde von einer Gruppe im Rahmen des *Jugendhackt - Projektes 2021* programmiert."]
+    },
     {"tag": "Command",
         "patterns": ["Unicode Test"],
         "responses": ["Ää Öö Üü"]
