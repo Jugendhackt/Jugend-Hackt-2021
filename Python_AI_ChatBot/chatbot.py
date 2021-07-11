@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 import random
 import json
 import pickle
@@ -7,6 +8,7 @@ import os
 
 import nltk
 from nltk.stem import WordNetLemmatizer
+from numpy.core.fromnumeric import resize
 
 from tensorflow.python.keras.models import load_model
 
@@ -67,7 +69,7 @@ def get_response(intents_list, intents_json):
 message = text_from_node_server
 ints = predict_class(message)
 res = get_response(ints, intents)
-print(res.encode('iso8859-1').decode('utf-8-sig'))
+print(res) #.encode('iso8859-1').decode('utf-8')
 sys.stdout.flush()
 
 
