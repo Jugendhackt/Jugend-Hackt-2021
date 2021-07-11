@@ -10,7 +10,11 @@ git clone https://github.com/Jugendhackt/Jugend-Hackt-2021
 ```
 npm install
 ```
-3. Server starten
+2. Node im Projekt initialisieren
+```
+npm init
+```
+4. Server starten
 ```
 node server.js
 ```
